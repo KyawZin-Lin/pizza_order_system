@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,22 +16,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
-
-    Route::group(['prefix'=>'category'], function(){
-        
-        Route::get('index',[CategoryController::class,'index'])->name('category#index');
-    });
-});
-
-
-// login register
+// Login Logout
 
 Route::redirect('/','loginPage');
 Route::get('loginPage',[AuthController::class,'loginPage'])->name('auth#loginPage');
 Route::get('registerPage',[AuthController::class,'registerPage'])->name('auth#registerPage');
 
-// admin
-// Category
+Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])->group(function () {
+
+    //Dashboard
+
+    Route::get('dashboard',[AuthController::class,'dashboard'])->name('auth#dashboard');
+
+    //Admin
+    //Category
+    Route::group(['prefix'=>'category'], function(){
+        Route::get('index',[CategoryController::class,'index'])->name('category#index');
+    });
+
+
+    //User
+    Route::group(['prefix'=>'user'],function(){
+        Route::get('home',function(){
+            return view('user.home');
+        })->name('user#home');
+    });
+});
+
+
 
