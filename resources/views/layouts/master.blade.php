@@ -46,6 +46,8 @@
                                 <img  src="{{asset('admin/images/icon/logo.png')}}" alt="CoolAdmin">
                             </a>
                         </div>
+                       
+
                        @yield('content')
                     </div>
                 </div>

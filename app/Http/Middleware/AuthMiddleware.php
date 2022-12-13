@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminAuthMiddleware
+class AuthMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,12 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()->role=='user'){
-            abort(404);
+        if(Auth::user()->role=='admin'){
+            return route('category#index');
+        }else{
+            return route('user#home');
         }
-        return $next($request);
+        // return $next($request);
+
     }
 }
